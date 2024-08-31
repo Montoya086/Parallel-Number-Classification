@@ -17,7 +17,7 @@ int main(int argc, char * argv[]) {
     int N;
 
     //Variable to store the maximum value of the random numbers
-    int max = 10000;
+    int max;
 
     //Variable to store the name of the file
     string filename;
@@ -25,6 +25,7 @@ int main(int argc, char * argv[]) {
     //Load the variables from argv
     if (argc == 3) {
         N = atoi(argv[1]);
+        max = atoi(argv[1]);
         filename = argv[2];
     } else {
         cout << "Usage: " << argv[0] << " N filename.csv" << endl;
