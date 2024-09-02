@@ -1,9 +1,6 @@
 # Parallel-Number-Classification
  
+Just got to start the container with the following command
 ```
-docker build -t cpp-image .
-```
-
-```
-docker run -it --rm -v ${pwd}:/app cpp-image /bin/bash
+docker-compose run --build --rm -it development
 ```
