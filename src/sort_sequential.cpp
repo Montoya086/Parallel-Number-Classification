@@ -40,6 +40,33 @@ void quickSort(vector<int> &numbers, int left, int right) {
         quickSort(numbers, i, right);
 }
 
+vector<int> readNumbers(string filename) {
+    // Open the CSV file
+    ifstream file(filename);
+    if (!file.is_open()) {
+        cout << "Error: File not found" << endl;
+        exit(1);
+    }
+
+    // Stores the numbers read from the file
+    vector<int> numbers;
+
+    // Variable to store the number read from the file
+    int number;
+
+    // Read the numbers from the file
+    while (file >> number) {
+        numbers.push_back(number);
+        //Ignore the comma
+        file.ignore();
+    }
+
+    //Close the file
+    file.close();
+
+    return numbers;
+}
+
 int main(int argc, char * argv[]) {
     //Variable to store the name of the file
     string filename;
@@ -52,34 +79,19 @@ int main(int argc, char * argv[]) {
         return 1;
     }
 
-    //Open the file
-    ifstream file(filename.c_str());
+    // Read the numbers from the CSV files
+    vector<int> numbers = readNumbers(filename);
 
-    //Variable to store the numbers
-    vector<int> numbers;
+    // Sort the numbers and measure the time
+    auto start = chrono::high_resolution_clock::now();  // Start measuring time
 
-    //Variable to store the number read from the file
-    int number;
-
-    //Read the numbers from the file
-    while (file >> number) {
-        numbers.push_back(number);
-        //Ignore the comma
-        file.ignore();
-    }
-
-    //Close the file
-    file.close();
-
-    //Sort the numbers
-    auto start = chrono::high_resolution_clock::now();
     quickSort(numbers, 0, numbers.size() - 1);
-    auto end = chrono::high_resolution_clock::now();
-    chrono::duration<double> elapsed = end - start;
 
-    cout << "Time to sort: " << elapsed.count() << " s" << endl;
+    auto end = chrono::high_resolution_clock::now();  // Stop measuring time
 
-    //Save the sorted numbers to a csv file
+    chrono::duration<double> elapsed = end - start;  // Calculate the elapsed time
+
+    // Save the sorted numbers to a csv file
     ofstream sorted_file("sorted_" + filename);
     for (int i = 0; i < numbers.size(); i++) {
         sorted_file << numbers[i] << ",";
@@ -87,6 +99,9 @@ int main(int argc, char * argv[]) {
     sorted_file.close();
     
     cout << endl;
+    cout << "Time to sort: " << elapsed.count() << " s" << endl;
+	cout << "Sorted numbers saved to sorted_" << filename << endl;
+	cout << endl;
 
     return 0;
 }
